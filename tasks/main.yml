@@ -1,0 +1,27 @@
+---
+
+# Init laravel
+- stat: path={{index_folder}}/vendor/
+  register: vendor
+
+- command: "composer install"
+  args:
+    chdir: "{{index_folder}}"
+  when: vendor.stat.islnk is not defined
+
+# Migrate
+- name: Migrate
+  command: "php artisan migrate:refresh"
+  args:
+    chdir: "{{index_folder}}"
+
+# Seed
+- name: Seed
+  command: "php artisan db:seed"
+  args:
+    chdir: "{{index_folder}}"
+
+
+
+
+
